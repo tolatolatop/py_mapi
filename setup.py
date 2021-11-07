@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='mapi',
+    name='py_mapi',
     version='0.1.0',
     packages=[''],
     url='',

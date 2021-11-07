@@ -1,3 +1,4 @@
+import datetime
 import sys
 
 import win32com
@@ -26,7 +27,8 @@ class MailFolder(object):
 
     def walk(self):
         folders, mails = self.list()
-        yield folders, mails
+        folders = list(folders)
+        yield iter(folders), mails
         for folder in folders:
             for sub_folders, sub_mails in folder.walk():
                 yield sub_folders, sub_mails
@@ -105,7 +107,7 @@ class Mail(object):
         return self.obj.Subject
 
     @property
-    def received_time(self):
+    def received_time(self) -> datetime.datetime:
         return self.obj.ReceivedTime
 
 
