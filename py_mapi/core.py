@@ -66,12 +66,17 @@ class MailFolder(object):
             folder.obj = obj
             yield folder
 
-    def list_mail(self):
+    def list_mail(self, from_date=None, to_date=None):
         if not self.__exists():
             raise
-        for item in self.obj.Items:
-            mail = Mail(self, item)
-            yield mail
+        items = (Mail(self, item) for item in self.obj.Items)
+        if from_date is not None:
+            items = filter(lambda x: x.received_time >= from_date, items)
+
+        if to_date is not None:
+            items = filter(lambda x: x.received_time <= to_date, items)
+
+        return items
 
     def list(self):
         if self.__exists():
